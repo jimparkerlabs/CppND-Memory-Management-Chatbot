@@ -2,6 +2,7 @@
 #include <random>
 #include <algorithm>
 #include <ctime>
+#include <wx/bitmap.h>
 
 #include "chatlogic.h"
 #include "graphnode.h"
@@ -32,7 +33,7 @@ ChatBot::ChatBot(std::string filename)
 
 ChatBot::~ChatBot()
 {
-    std::cout << "ChatBot Destructor" << std::endl;
+    std::cout << "ChatBot Destructor" << this << std::endl;
 
     // deallocate heap memory
     if(_image != NULL) // Attention: wxWidgets used NULL and not nullptr
@@ -44,6 +45,43 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+
+// copy constructor
+ChatBot::ChatBot(const ChatBot& other) : _chatLogic(other._chatLogic), _rootNode(other._rootNode), _image(other._image) {
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+}
+
+// move constructor
+ChatBot::ChatBot(const ChatBot&& other) : _chatLogic(other._chatLogic), _rootNode(other._rootNode), _image(other._image) {
+    std::cout << "ChatBot Move Constructor" << std::endl;
+}
+
+// copy assignment operator
+ChatBot& ChatBot::operator=(const ChatBot& other) {
+    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+
+    if (this != &other) {
+        _chatLogic = other._chatLogic;
+        _rootNode = other._rootNode;
+        _image = other._image;
+    }
+
+    return *this;
+}
+
+// move assignment operator
+ChatBot ChatBot::operator=(ChatBot&& other) {
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
+
+    if (this != &other) {
+    _chatLogic = other._chatLogic;
+    _rootNode = other._rootNode;
+    _image = other._image;
+    }
+
+
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
