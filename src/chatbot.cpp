@@ -49,11 +49,15 @@ ChatBot::~ChatBot()
 // copy constructor
 ChatBot::ChatBot(const ChatBot& other) : _chatLogic(other._chatLogic), _rootNode(other._rootNode), _image(other._image) {
     std::cout << "ChatBot Copy Constructor" << std::endl;
+
+    // probably want to copy the _image and not just the reference
 }
 
 // move constructor
-ChatBot::ChatBot(const ChatBot&& other) : _chatLogic(other._chatLogic), _rootNode(other._rootNode), _image(other._image) {
+ChatBot::ChatBot(ChatBot&& other) : _chatLogic(other._chatLogic), _rootNode(other._rootNode), _image(other._image) {
     std::cout << "ChatBot Move Constructor" << std::endl;
+
+    other._image = NULL;
 }
 
 // copy assignment operator
@@ -63,7 +67,7 @@ ChatBot& ChatBot::operator=(const ChatBot& other) {
     if (this != &other) {
         _chatLogic = other._chatLogic;
         _rootNode = other._rootNode;
-        _image = other._image;
+        _image = other._image;  // probably want to copy the image into a new image resource
     }
 
     return *this;
@@ -74,9 +78,10 @@ ChatBot ChatBot::operator=(ChatBot&& other) {
     std::cout << "ChatBot Move Assignment Operator" << std::endl;
 
     if (this != &other) {
-    _chatLogic = other._chatLogic;
-    _rootNode = other._rootNode;
-    _image = other._image;
+        _chatLogic = other._chatLogic;
+        _rootNode = other._rootNode;
+        _image = other._image;
+        other._image = NULL;
     }
 
 

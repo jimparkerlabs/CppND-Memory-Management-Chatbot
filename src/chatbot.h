@@ -33,8 +33,8 @@ public:
 
     ChatBot(const ChatBot& other);             // copy constructor
     ChatBot& operator=(const ChatBot& other);  // copy assignment operator
-    ChatBot(const ChatBot&& other);            // move constructor
-    ChatBot operator=(ChatBot&& other);       // move assignment operator
+    ChatBot(ChatBot&& other);                  // move constructor
+    ChatBot operator=(ChatBot&& other);        // move assignment operator
 
     ////
     //// EOF STUDENT CODE
