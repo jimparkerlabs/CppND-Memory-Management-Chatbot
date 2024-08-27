@@ -1,8 +1,11 @@
+#include <iostream>
 #include "graphedge.h"
 #include "graphnode.h"
 
 GraphNode::GraphNode(int id)
 {
+    std::cout << "GraphNode Constructor" << std::endl;
+
     _id = id;
 }
 
@@ -10,6 +13,8 @@ GraphNode::~GraphNode()
 {
     //// STUDENT CODE
     ////
+
+    std::cout << "GraphNode Destructor" << std::endl;
 
 //    delete _chatBot;
 
@@ -27,9 +32,9 @@ void GraphNode::AddEdgeToParentNode(GraphEdge *edge)
     _parentEdges.push_back(edge);
 }
 
-void GraphNode::AddEdgeToChildNode(GraphEdge *edge)
+void GraphNode::AddEdgeToChildNode(GraphEdge* edge)
 {
-    _childEdges.push_back(edge);
+    _childEdges.push_back(std::unique_ptr<GraphEdge>(edge));
 }
 
 //// STUDENT CODE
@@ -48,12 +53,12 @@ void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 ////
 //// EOF STUDENT CODE
 
-GraphEdge *GraphNode::GetChildEdgeAtIndex(int index)
+GraphEdge* GraphNode::GetChildEdgeAtIndex(int index)
 {
     //// STUDENT CODE
     ////
 
-    return _childEdges[index];
+    return _childEdges[index].get();
 
     ////
     //// EOF STUDENT CODE
