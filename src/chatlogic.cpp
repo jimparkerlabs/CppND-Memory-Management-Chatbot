@@ -18,7 +18,7 @@ ChatLogic::ChatLogic()
     //// STUDENT CODE
     ////
 
-    std::cout << "ChatLogic constructor " << this << std::endl;
+//    std::cout << "ChatLogic constructor " << this << std::endl;
 
     // create instance of chatbot
 //    _chatBot = new ChatBot("../images/chatbot.png");
@@ -222,14 +222,18 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     // create new ChatBot on stack (for some reason...)
     ChatBot tempChatBot{"../images/chatbot.png"};
 
+//    _chatBot = std::make_shared<ChatBot>(std::move(tempChatBot));
+//    _chatBot->SetChatLogicHandle(this);
 //    _chatBot->SetRootNode(rootNode);
 //    rootNode->MoveChatbotHere(_chatBot);
+
     auto chatBotPtr = std::make_shared<ChatBot>(std::move(tempChatBot));
+    _chatBot = chatBotPtr.get();
+
     chatBotPtr->SetChatLogicHandle(this);
     chatBotPtr->SetRootNode(rootNode);
-
     rootNode->MoveChatbotHere(chatBotPtr);
-    
+
     ////
     //// EOF STUDENT CODE
 }
@@ -239,7 +243,7 @@ void ChatLogic::SetPanelDialogHandle(ChatBotPanelDialog *panelDialog)
     _panelDialog = panelDialog;
 }
 
-void ChatLogic::SetChatbotHandle(ChatBot *chatbot)
+void ChatLogic::SetChatbotHandle(ChatBot* chatbot)
 {
     _chatBot = chatbot;
 }
@@ -251,7 +255,6 @@ void ChatLogic::SendMessageToChatbot(std::string message)
 
 void ChatLogic::SendMessageToUser(std::string message)
 {
-    std::cout << "Printing ChatBot response in panelDialog " << _panelDialog << std::endl;
     _panelDialog->PrintChatbotResponse(message);
 }
 
