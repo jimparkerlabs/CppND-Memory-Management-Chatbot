@@ -18,11 +18,13 @@ ChatLogic::ChatLogic()
     //// STUDENT CODE
     ////
 
+    std::cout << "ChatLogic constructor " << this << std::endl;
+
     // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
+//    _chatBot = new ChatBot("../images/chatbot.png");
 
     // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
+//    _chatBot->SetChatLogicHandle(this);
 
     ////
     //// EOF STUDENT CODE
@@ -34,7 +36,7 @@ ChatLogic::~ChatLogic()
     ////
 
     // delete chatbot instance
-    delete _chatBot;
+//    delete _chatBot;
 
     // delete all nodes
 //    for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
@@ -218,12 +220,15 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
     // add chatbot to graph root node
     // create new ChatBot on stack (for some reason...)
-    ChatBot newChatBot{*_chatBot};
+    ChatBot tempChatBot{"../images/chatbot.png"};
 
-    _chatBot->SetRootNode(rootNode);
+//    _chatBot->SetRootNode(rootNode);
 //    rootNode->MoveChatbotHere(_chatBot);
-    newChatBot.SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(std::move(newChatBot));
+    auto chatBotPtr = std::make_shared<ChatBot>(std::move(tempChatBot));
+    chatBotPtr->SetChatLogicHandle(this);
+    chatBotPtr->SetRootNode(rootNode);
+
+    rootNode->MoveChatbotHere(chatBotPtr);
     
     ////
     //// EOF STUDENT CODE
@@ -246,6 +251,7 @@ void ChatLogic::SendMessageToChatbot(std::string message)
 
 void ChatLogic::SendMessageToUser(std::string message)
 {
+    std::cout << "Printing ChatBot response in panelDialog " << _panelDialog << std::endl;
     _panelDialog->PrintChatbotResponse(message);
 }
 

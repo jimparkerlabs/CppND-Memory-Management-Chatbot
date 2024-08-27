@@ -108,6 +108,8 @@ END_EVENT_TABLE()
 ChatBotPanelDialog::ChatBotPanelDialog(wxWindow *parent, wxWindowID id)
     : wxScrolledWindow(parent, id)
 {
+    std::cout << "PanelDialog constructor " << this << std::endl;
+
     // sizer will take care of determining the needed scroll size
     _dialogSizer = new wxBoxSizer(wxVERTICAL);
     this->SetSizer(_dialogSizer);
@@ -146,10 +148,14 @@ ChatBotPanelDialog::~ChatBotPanelDialog()
 
 void ChatBotPanelDialog::AddDialogItem(wxString text, bool isFromUser)
 {
+    std::cout << "adba" << std::endl;
     // add a single dialog element to the sizer
     ChatBotPanelDialogItem *item = new ChatBotPanelDialogItem(this, text, isFromUser);
+    std::cout << "adbb" << std::endl;
     _dialogSizer->Add(item, 0, wxALL | (isFromUser == true ? wxALIGN_LEFT : wxALIGN_RIGHT), 8);
+    std::cout << "adbc" << std::endl;
     _dialogSizer->Layout();
+    std::cout << "adbd" << std::endl;
 
     // make scrollbar show up
     this->FitInside(); // ask the sizer about the needed size
@@ -161,13 +167,17 @@ void ChatBotPanelDialog::AddDialogItem(wxString text, bool isFromUser)
     this->GetScrollPixelsPerUnit(&dx, &dy);
     int sy = dy * this->GetScrollLines(wxVERTICAL);
     this->DoScroll(0, sy);
+    std::cout << "adbe" << std::endl;
 }
 
 void ChatBotPanelDialog::PrintChatbotResponse(std::string response)
 {
     // convert string into wxString and add dialog element
+    std::cout << "ada" << std::endl;
     wxString botText(response.c_str(), wxConvUTF8);
+    std::cout << "adb" << std::endl;
     AddDialogItem(botText, false);
+    std::cout << "adc" << std::endl;
 }
 
 void ChatBotPanelDialog::paintEvent(wxPaintEvent &evt)
