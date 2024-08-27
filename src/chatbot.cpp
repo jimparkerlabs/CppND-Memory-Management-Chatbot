@@ -21,7 +21,7 @@ ChatBot::ChatBot()
 // constructor WITH memory allocation
 ChatBot::ChatBot(std::string filename)
 {
-    std::cout << "ChatBot Constructor" << std::endl;
+    std::cout << "ChatBot Constructor" << this << std::endl;
     
     // invalidate data handles
     _chatLogic = nullptr;
@@ -47,27 +47,27 @@ ChatBot::~ChatBot()
 ////
 
 // copy constructor
-ChatBot::ChatBot(const ChatBot& other) : _chatLogic(other._chatLogic), _rootNode(other._rootNode), _image(other._image) {
-    std::cout << "ChatBot Copy Constructor" << std::endl;
+ChatBot::ChatBot(const ChatBot& other) : _chatLogic(other._chatLogic), _rootNode(other._rootNode) {
+    std::cout << "ChatBot Copy Constructor" << this << " <- " << &other << std::endl;
 
-    // probably want to copy the _image and not just the reference
+    _image = new wxBitmap(*other._image);
 }
 
 // move constructor
 ChatBot::ChatBot(ChatBot&& other) : _chatLogic(other._chatLogic), _rootNode(other._rootNode), _image(other._image) {
-    std::cout << "ChatBot Move Constructor" << std::endl;
+    std::cout << "ChatBot Move Constructor" << this << " <- " << &other << std::endl;
 
     other._image = NULL;
 }
 
 // copy assignment operator
 ChatBot& ChatBot::operator=(const ChatBot& other) {
-    std::cout << "ChatBot Copy Assignment Operator" << std::endl;
+    std::cout << "ChatBot Copy Assignment Operator" << this << " <- " << &other << std::endl;
 
     if (this != &other) {
         _chatLogic = other._chatLogic;
         _rootNode = other._rootNode;
-        _image = other._image;  // probably want to copy the image into a new image resource
+        _image = new wxBitmap(*other._image);
     }
 
     return *this;
@@ -75,7 +75,7 @@ ChatBot& ChatBot::operator=(const ChatBot& other) {
 
 // move assignment operator
 ChatBot ChatBot::operator=(ChatBot&& other) {
-    std::cout << "ChatBot Move Assignment Operator" << std::endl;
+    std::cout << "ChatBot Move Assignment Operator" << this << " <- " << &other << std::endl;
 
     if (this != &other) {
         _chatLogic = other._chatLogic;
@@ -93,6 +93,8 @@ ChatBot ChatBot::operator=(ChatBot&& other) {
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
+    std::cout << "received message from user" << this << std::endl;
+
     // loop over all edges and keywords and compute Levenshtein distance to query
     typedef std::pair<GraphEdge*, int> EdgeDist;
     std::vector<EdgeDist> levDists; // format is <ptr,levDist>
@@ -120,6 +122,8 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
         // go back to root node
         newNode = _rootNode;
     }
+
+    std::cout << "about to attempt moving chatbot to new node" << std::endl;
 
     // tell current node to move chatbot to new node
     _currentNode->MoveChatbotToNewNode(newNode);
