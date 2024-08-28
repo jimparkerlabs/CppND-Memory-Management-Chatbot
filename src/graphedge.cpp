@@ -4,14 +4,14 @@
 
 GraphEdge::GraphEdge(int id)
 {
-    std::cout << "GraphEdge Constructor" << std::endl;
-
+//    std::cout << "GraphEdge Constructor" << std::endl;
+//
     _id = id;
 }
 
 GraphEdge::~GraphEdge()
 {
-    std::cout << "GraphEdge Destructor" << std::endl;
+//    std::cout << "GraphEdge Destructor" << std::endl;
 }
 
 void GraphEdge::SetChildNode(GraphNode *childNode)
