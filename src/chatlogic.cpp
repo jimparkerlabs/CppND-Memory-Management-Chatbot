@@ -227,12 +227,15 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 //    _chatBot->SetRootNode(rootNode);
 //    rootNode->MoveChatbotHere(_chatBot);
 
-    auto chatBotPtr = std::make_shared<ChatBot>(std::move(tempChatBot));
-    _chatBot = chatBotPtr.get();
+//    auto chatBotPtr = std::make_shared<ChatBot>(std::move(tempChatBot));
+//    _chatBot = chatBotPtr.get();
 
-    chatBotPtr->SetChatLogicHandle(this);
-    chatBotPtr->SetRootNode(rootNode);
-    rootNode->MoveChatbotHere(chatBotPtr);
+//    chatBotPtr->SetChatLogicHandle(this);
+//    chatBotPtr->SetRootNode(rootNode);
+//    rootNode->MoveChatbotHere(chatBotPtr);
+    tempChatBot.SetChatLogicHandle(this);
+    tempChatBot.SetRootNode(rootNode);
+    rootNode->MoveChatbotHere(std::move(tempChatBot));
 
     ////
     //// EOF STUDENT CODE

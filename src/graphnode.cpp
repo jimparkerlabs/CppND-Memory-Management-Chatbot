@@ -1,6 +1,7 @@
 #include <iostream>
 #include "graphedge.h"
 #include "graphnode.h"
+#include "chatlogic.h"
 
 GraphNode::GraphNode(int id)
 {
@@ -47,27 +48,31 @@ void GraphNode::AddEdgeToChildNode(GraphEdge* edge)
 //    _chatBot->SetCurrentNode(this);
 //}
 
-void GraphNode::MoveChatbotHere(std::shared_ptr<ChatBot> chatbot)
-{
-//    std::cout << "Moving ChatBot SHARED Pointer to new node " << chatbot.get() << std::endl;
-
-    _chatBot = chatbot;
-    _chatBot->SetCurrentNode(this);
-}
-
-//void GraphNode::MoveChatbotHere(ChatBot&& chatbot)
+//void GraphNode::MoveChatbotHere(std::shared_ptr<ChatBot> chatbot)
 //{
-//    std::cout << "Moving ChatBot rvalue Reference to new node" << &chatbot << std::endl;
+////    std::cout << "Moving ChatBot SHARED Pointer to new node " << chatbot.get() << std::endl;
 //
-////    _chatBot = &chatbot;
-//     _chatBot = new ChatBot(chatbot);
+//    _chatBot = chatbot;
 //    _chatBot->SetCurrentNode(this);
 //}
 
+void GraphNode::MoveChatbotHere(ChatBot&& chatbot)
+{
+//    std::cout << "Moving ChatBot rvalue Reference to new node" << &chatbot << std::endl;
+
+//    _chatBot = &chatbot;
+    _chatBot = ChatBot(std::move(chatbot));  // move constructor; move assignment operator
+
+    // moved chatbot, so need to update associated chatlogic to point to new one
+    _chatBot.GetChatLogicHandle()->SetChatbotHandle(&_chatBot);
+
+    _chatBot.SetCurrentNode(this);
+}
+
 void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
-    newNode->MoveChatbotHere(_chatBot);
-    _chatBot = nullptr; // invalidate pointer at source
+    newNode->MoveChatbotHere(std::move(_chatBot));
+//    _chatBot = nullptr; // invalidate pointer at source
 }
 ////
 //// EOF STUDENT CODE

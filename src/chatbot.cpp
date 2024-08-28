@@ -84,7 +84,6 @@ ChatBot ChatBot::operator=(ChatBot&& other) {
         other._image = NULL;
     }
 
-
     return *this;
 }
 
