@@ -18,7 +18,7 @@ private:
     ////
 
     // jp edit
-    std::shared_ptr<ChatLogic> _chatLogic;
+    std::unique_ptr<ChatLogic> _chatLogic;
 
     ////
     //// EOF STUDENT CODE
@@ -30,7 +30,7 @@ public:
 
     // getter / setter
     // jp edit
-    std::shared_ptr<ChatLogic> GetChatLogicHandle() { return _chatLogic; }
+    std::unique_ptr<ChatLogic>& GetChatLogicHandle() { return _chatLogic; }
 
     // events
     void paintEvent(wxPaintEvent &evt);
