@@ -74,7 +74,7 @@ ChatBot& ChatBot::operator=(const ChatBot& other) {
 }
 
 // move assignment operator
-ChatBot ChatBot::operator=(ChatBot&& other) {
+ChatBot& ChatBot::operator=(ChatBot&& other) {
     std::cout << "ChatBot Move Assignment Operator " << this << " <- " << &other << std::endl;
 
     if (this != &other) {
