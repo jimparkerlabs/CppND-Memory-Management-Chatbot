@@ -40,27 +40,10 @@ void GraphNode::AddEdgeToChildNode(std::unique_ptr<GraphEdge> edge)
 
 //// STUDENT CODE
 ////
-//void GraphNode::MoveChatbotHere(ChatBot *chatbot)
-//{
-//    std::cout << "Moving ChatBot Pointer to new node" << std::endl;
-//
-//    _chatBot = *chatbot;
-//    _chatBot->SetCurrentNode(this);
-//}
-
-//void GraphNode::MoveChatbotHere(std::shared_ptr<ChatBot> chatbot)
-//{
-////    std::cout << "Moving ChatBot SHARED Pointer to new node " << chatbot.get() << std::endl;
-//
-//    _chatBot = chatbot;
-//    _chatBot->SetCurrentNode(this);
-//}
-
 void GraphNode::MoveChatbotHere(ChatBot&& chatbot)
 {
 //    std::cout << "Moving ChatBot rvalue Reference to new node" << &chatbot << std::endl;
 
-//    _chatBot = &chatbot;
     _chatBot = ChatBot(std::move(chatbot));  // move constructor; move assignment operator
 
     // moved chatbot, so need to update associated chatlogic to point to new one
@@ -73,6 +56,7 @@ void GraphNode::MoveChatbotToNewNode(GraphNode *newNode)
 {
     newNode->MoveChatbotHere(std::move(_chatBot));
 //    _chatBot = nullptr; // invalidate pointer at source
+//    _chatBot = ChatBot();  // I just moved this, so I should re-set the source variable
 }
 ////
 //// EOF STUDENT CODE
