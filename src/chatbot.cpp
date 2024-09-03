@@ -58,6 +58,9 @@ ChatBot::ChatBot(ChatBot&& other) : _chatLogic(other._chatLogic), _rootNode(othe
     std::cout << "ChatBot Move Constructor " << this << " <- " << &other << std::endl;
 
     other._image = NULL;
+    other._chatLogic = nullptr;
+    other._rootNode = nullptr;
+
 }
 
 // copy assignment operator
@@ -82,6 +85,8 @@ ChatBot ChatBot::operator=(ChatBot&& other) {
         _rootNode = other._rootNode;
         _image = other._image;
         other._image = NULL;
+        other._chatLogic = nullptr;
+        other._rootNode = nullptr;
     }
 
     return *this;
